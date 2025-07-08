@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogPostApplication.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250704001524_InitialCreate")]
+    [Migration("20250708000451_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -38,6 +38,30 @@ namespace BlogPostApplication.Migrations
                     b.HasKey("BlogId");
 
                     b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("BlogPostApplication.Models.BlogType", b =>
+                {
+                    b.Property<int>("BlogTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogTypeId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("BlogTypeId");
+
+                    b.ToTable("Blogtypes");
                 });
 
             modelBuilder.Entity("BlogPostApplication.Models.Post", b =>

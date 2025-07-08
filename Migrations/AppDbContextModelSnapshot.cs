@@ -37,6 +37,30 @@ namespace BlogPostApplication.Migrations
                     b.ToTable("Blogs");
                 });
 
+            modelBuilder.Entity("BlogPostApplication.Models.BlogType", b =>
+                {
+                    b.Property<int>("BlogTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogTypeId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("BlogTypeId");
+
+                    b.ToTable("Blogtypes");
+                });
+
             modelBuilder.Entity("BlogPostApplication.Models.Post", b =>
                 {
                     b.Property<int>("PostId")

@@ -24,6 +24,21 @@ namespace BlogPostApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blogtypes",
+                columns: table => new
+                {
+                    BlogTypeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogtypes", x => x.BlogTypeId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -53,6 +68,9 @@ namespace BlogPostApplication.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Blogtypes");
+
             migrationBuilder.DropTable(
                 name: "Posts");
 
