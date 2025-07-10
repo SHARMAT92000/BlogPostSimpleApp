@@ -1,10 +1,11 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogPostApplication.Models
+namespace BlogPostSimpleApp.Models
 {
     public class Post
     {
@@ -12,8 +13,9 @@ namespace BlogPostApplication.Models
         public string Title { get; set; }
         public string Content { get; set; }
 
-        public int BlogId { get; set; }           // Foreign Key
+        public int BlogId { get; set; }
         public Blog Blog { get; set; }
+        public int PostTypeId { get; set; }
+        public PostType PostType { get; set; }
     }
-
 }
