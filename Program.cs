@@ -1,4 +1,5 @@
-﻿using BlogPostSimpleApp.Models;
+﻿using BlogPostApplication.Models;
+using BlogPostSimpleApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using System;
@@ -92,38 +93,59 @@ class Program
         using var context = new AppDbContext();
 
 
-// Clear existing data
-context.Posts.RemoveRange(context.Posts);
-context.Blogs.RemoveRange(context.Blogs);
-context.BlogTypes.RemoveRange(context.BlogTypes);
-context.PostTypes.RemoveRange(context.PostTypes);
-context.Users.RemoveRange(context.Users);
-context.SaveChanges();
+        //// Clear existing data
+        //context.Posts.RemoveRange(context.Posts);
+        //context.Blogs.RemoveRange(context.Blogs);
+        //context.BlogTypes.RemoveRange(context.BlogTypes);
+        //context.PostTypes.RemoveRange(context.PostTypes);
+        //context.Users.RemoveRange(context.Users);
+        //context.SaveChanges();
 
-// Reset identity counters
-context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('BlogType', RESEED, 0)"); // because table name is BlogType
-context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Blogs', RESEED, 0)");
-context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Posts', RESEED, 0)");
-context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('PostType', RESEED, 0)"); // because table name is PostType
-context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Users', RESEED, 0)");
-        //    var blogTypes = new List<BlogType>
+        //// Reset identity counters
+        //context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('BlogType', RESEED, 0)"); // because table name is BlogType
+        //context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Blogs', RESEED, 0)");
+        //context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Posts', RESEED, 0)");
+        //context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('PostType', RESEED, 0)"); // because table name is PostType
+        //context.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Users', RESEED, 0)");
+        var statuses = new List<Status>
+{
+    new Status { Name = "S1", Description = "S1", StatusCode = 1 },
+    new Status { Name = "S2", Description = "S2", StatusCode = 2 },
+    new Status { Name = "S3", Description = "S3", StatusCode = 3 },
+    new Status { Name = "S4", Description = "S4", StatusCode = 4 },
+    new Status { Name = "S5", Description = "S5", StatusCode = 5 },
+    new Status { Name = "S6", Description = "S6", StatusCode = 6 },
+    new Status { Name = "S7", Description = "S7", StatusCode = 7 },
+    new Status { Name = "S8", Description = "S8", StatusCode = 8 },
+    new Status { Name = "S9", Description = "S9", StatusCode = 9 },
+    new Status { Name = "S10", Description = "S10", StatusCode = 10 }
 
-        //    {
-        //        new BlogType {Name = "Corporate", Status = 1, Description = "Corporate blog"},
-        //        new BlogType {Name = "Personal", Status=2, Description = "Personal blog"},
-        //        new BlogType {Name = "Private", Status=2, Description = "Private blog" },
-        //    };
+};
+        var blogTypes = new List<BlogType>
+{
+    new BlogType { Name = "Corporate", Description = "Corporate Blog", Status = 1 },
+    new BlogType { Name = "Personal", Description = "Personal Blog", Status = 1 },
+    new BlogType { Name = "Private", Description = "Private Blog", Status = 1 }
+};
+        var blogs = new List<Blog>
+{
+    new Blog { Url = "https://corporate.com", BlogType = blogTypes[0], Status = statuses[0] }, // S1
+    new Blog { Url = "https://personal.com", BlogType = blogTypes[1], Status = statuses[1] },  // S2
+    new Blog { Url = "https://private.com", BlogType = blogTypes[2], Status = statuses[2] }    // S3
+};
+        context.Statuses.AddRange(statuses);
+        context.BlogTypes.AddRange(blogTypes);
+        context.Blogs.AddRange(blogs);
+        context.SaveChanges();
 
-        //    var blogs = new List<Blog>
-        //    {
-        //    new Blog {Url = "www.corporateblog.com", BlogType = blogTypes[0]},
-        //    new Blog {Url = "www.personalblog.com", BlogType = blogTypes[1]},
-        //    new Blog {Url = "www.privateblog.com", BlogType = blogTypes[2]},
-        //    };
+        var status10 = context.Statuses.First(s => s.StatusCode == 10);
 
-        //    context.BlogTypes.AddRange(blogTypes);
-        //    context.Blogs.AddRange(blogs);
+        var allBlogs = context.Blogs.ToList();
 
-        //    context.SaveChanges();
+        foreach (var blog in allBlogs)
+        {
+            blog.StatusId = status10.StatusId;
+        }
+        context.SaveChanges();
     }
 }
