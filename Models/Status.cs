@@ -28,4 +28,4 @@ namespace BlogPostApplication.Models
         // One Status can be assigned to many Blogs
         public List<Blog> Blogs { get; set; }
     }
-}\
+}
