@@ -17,5 +17,7 @@ namespace BlogPostSimpleApp.Models
         public BlogType BlogType { get; set; }
         public int StatusId { get; set; }       // Foreign key
         public Status Status { get; set; }      // Navigation property
+
+
     }
 }
